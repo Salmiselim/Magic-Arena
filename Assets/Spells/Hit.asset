@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61bdd7f04f7b46a4e87ea7da8ab2e0e8, type: 3}
+  m_Name: Hit
+  m_EditorClassIdentifier: Assembly-CSharp::OffensiveSpell
+  spellName: Hit
+  manaCost: 15
+  cooldown: 1
+  castTime: 0.1
+  damage: 10
+  range: 10
+  projectilePrefab: {fileID: 8406771570074997170, guid: 0e639d963dad06f49b035c612cb6270b, type: 3}
