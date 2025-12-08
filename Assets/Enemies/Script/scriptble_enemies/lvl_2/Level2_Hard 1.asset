@@ -15,8 +15,8 @@ MonoBehaviour:
   enemyName: Skeleton
   level: 1
   difficulty: 0
-  prefab: {fileID: 0}
-  portalColor: {r: 0, g: 1, b: 0, a: 1}
+  prefab: {fileID: 8481475908317741720, guid: b816d8430076ef04b9c80fb87eb46b59, type: 3}
+  portalColor: {r: 0, g: 0.21944284, b: 1, a: 1}
   skinMaterial: {fileID: 0}
   moveSpeed: 2
   attackRange: 1.5
