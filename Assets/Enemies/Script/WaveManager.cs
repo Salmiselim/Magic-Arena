@@ -75,6 +75,10 @@ public class WaveManager : MonoBehaviour
 
     void StartNextWave()
     {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayWaveStart();
+        }
         if (currentWave >= 3)
         {
             Debug.Log("🎉 ALL WAVES COMPLETE!");
@@ -215,7 +219,10 @@ public class WaveManager : MonoBehaviour
         currentWave++;
 
         Debug.Log($"✅✅✅ WAVE {currentWave} COMPLETE! ✅✅✅");
-
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayWaveComplete();
+        }
         if (currentWave >= 3)
         {
             Debug.Log("🎉🎉🎉 ALL WAVES COMPLETE! 🎉🎉🎉");

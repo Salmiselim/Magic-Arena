@@ -73,7 +73,11 @@ public class EnemySpawner : MonoBehaviour
 
         // ========== PHASE 1: CREATE AND OPEN PORTAL ==========
         GameObject portal = Instantiate(spawnPortalPrefab, spawnPos, Quaternion.Euler(90, 0, 0));
-
+        // Play portal open sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPortalOpen(spawnPos);
+        }
         // Get components
         Renderer portalRenderer = portal.GetComponent<Renderer>();
         ParticleSystem portalParticles = portal.GetComponentInChildren<ParticleSystem>();
@@ -166,7 +170,11 @@ public class EnemySpawner : MonoBehaviour
 
         // ========== PHASE 4: CLOSE PORTAL ==========
         elapsed = 0f;
-
+        // Play portal close sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayPortalClose(spawnPos);
+        }
         while (elapsed < portalCloseTime)
         {
             elapsed += Time.deltaTime;

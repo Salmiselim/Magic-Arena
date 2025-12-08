@@ -48,6 +48,10 @@ public class LevelManager : MonoBehaviour
     public void CompleteLevel()
     {
         Debug.Log("🎉 LEVEL COMPLETE! Loading next level...");
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayLevelComplete();
+        }
         StartCoroutine(LoadNextLevelCoroutine());
     }
 
@@ -141,5 +145,12 @@ public class LevelManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateSceneInfo();
+
+        // Play correct music for this scene
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayMusicForScene(scene.buildIndex);
+        }
     }
+
 }

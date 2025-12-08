@@ -53,6 +53,11 @@ public class EnemyFollow : MonoBehaviour
         {
             Debug.LogWarning("⚠️ No health bar prefab assigned to enemy!");
         }
+        // Play spawn sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayEnemySpawn(transform.position);
+        }
     }
 
     void Update()
@@ -158,7 +163,12 @@ public class EnemyFollow : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log($"{(enemyData != null ? enemyData.enemyName : "Enemy")} took {damage} damage! HP: {currentHealth}/{maxHealth}");
-
+        // Play hit sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayEnemyHit(transform.position);
+        }
+        
         // NEW: Update health bar
         if (healthBar != null)
         {
@@ -177,7 +187,12 @@ public class EnemyFollow : MonoBehaviour
     void Die()
     {
         isActive = false;
-
+        // Play death sound
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayEnemyDeath(transform.position);
+        }
+        
         // Play death animation if you have one
         if (anim != null)
         {

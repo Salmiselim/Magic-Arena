@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Spells\Script\DefensiveSpells.cs" />
+    <Compile Include="Assets\Enemies\Script\AudioManager.cs" />
     <Compile Include="Assets\Spells\Script\Spell.cs" />
     <Compile Include="Assets\Enemies\Script\EnemyHealthBar.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\VideoPlayerRenderTexture.cs" />
