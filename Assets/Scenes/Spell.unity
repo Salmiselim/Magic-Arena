@@ -7843,7 +7843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5577341058858673926, guid: aea9491c571989447bd45690d9463eb9, type: 3}
       propertyPath: isMenuOpen
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577341058858673926, guid: aea9491c571989447bd45690d9463eb9, type: 3}
       propertyPath: playerStats
