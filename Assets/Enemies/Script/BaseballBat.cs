@@ -14,6 +14,10 @@ public class BaseballBat : MonoBehaviour
     [Header("Audio (Optional)")]
     public AudioClip hitSound;
 
+    [Header("Visual Effects (Optional)")]
+    public GameObject hitEffectPrefab;      // Particle effect on hit
+    public float hitEffectDuration = 1f;
+
     private Rigidbody rb;
     private AudioSource audioSource;
     private float lastHitTime;
@@ -80,6 +84,14 @@ public class BaseballBat : MonoBehaviour
             if (audioSource != null && hitSound != null)
             {
                 audioSource.PlayOneShot(hitSound);
+            }
+
+            // Spawn hit effect
+            if (hitEffectPrefab != null)
+            {
+                Vector3 hitPoint = collision.contacts[0].point;
+                GameObject effect = Instantiate(hitEffectPrefab, hitPoint, Quaternion.identity);
+                Destroy(effect, hitEffectDuration);
             }
 
             // Apply impact force to enemy (optional - makes them stumble)

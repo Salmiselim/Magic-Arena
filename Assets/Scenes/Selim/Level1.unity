@@ -482,6 +482,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1083359487
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1083359488}
+  - component: {fileID: 1083359489}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1083359488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083359487}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.66254, y: 1.20757, z: 1.0877}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1083359489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083359487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630a44370c5cc814ab37973e94b82785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  menuMusic: {fileID: 0}
+  level1Music: {fileID: 8300000, guid: d10e9f88052533f40a312487fbda90ed, type: 3}
+  level2Music: {fileID: 8300000, guid: d10e9f88052533f40a312487fbda90ed, type: 3}
+  level3Music: {fileID: 0}
+  victoryMusic: {fileID: 0}
+  musicVolume: 0.5
+  enemySpawn: {fileID: 0}
+  enemyHit: {fileID: 0}
+  enemyDeath: {fileID: 0}
+  enemyAttack: {fileID: 0}
+  enemyWalk: {fileID: 0}
+  batSwing: {fileID: 0}
+  batHit: {fileID: 0}
+  batHitCritical: {fileID: 0}
+  portalOpen: {fileID: 8300000, guid: c013ebee268118f469a36eb4c416d171, type: 3}
+  portalLoop: {fileID: 0}
+  portalClose: {fileID: 0}
+  waveStart: {fileID: 0}
+  waveComplete: {fileID: 0}
+  levelComplete: {fileID: 0}
+  gameOver: {fileID: 0}
+  ambientWind: {fileID: 0}
+  ambientCreepy: {fileID: 0}
+  ambientVolume: 0.3
+  sfxVolume: 1
 --- !u!4 &1712824237 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8429981633443581382, guid: 6c8af5c8012f01440af6cb2bc3eb987c, type: 3}
@@ -9727,6 +9796,8 @@ MonoBehaviour:
   hitCooldown: 0.5
   minimumVelocity: 1
   hitSound: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
+  hitEffectDuration: 1
 --- !u!114 &3813406238760673775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21938,3 +22009,4 @@ SceneRoots:
   - {fileID: 40325300}
   - {fileID: 769479147}
   - {fileID: 491959836}
+  - {fileID: 1083359488}
