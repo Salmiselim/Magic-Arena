@@ -1,75 +1,120 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class SpellSelectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SpellSelectButton : MonoBehaviour
 {
     [Header("Spell Settings")]
     public int spellIndex = 0;
-    public Spell assignedSpell; // Optional: assign specific spell
-
-    [Header("UI Elements")]
-    public Image iconImage;
-    public Text spellNameText;
-    public Text manaCostText;
-    public Image background;
-
+    public Spell assignedSpell;
+    
+    [Header("UI References")]
+    public Image buttonImage;
+    
     [Header("Colors")]
     public Color normalColor = Color.white;
-    public Color highlightColor = Color.yellow;
+    public Color hoverColor = Color.yellow;
     public Color selectedColor = Color.green;
-
-    private Button button;
+    
+    private bool isHovered = false;
     private bool isSelected = false;
-
-    private void Start()
+    
+    void Start()
     {
-        button = GetComponent<Button>();
-        if (button != null)
+        // Auto-find Image if not assigned
+        if (buttonImage == null)
+            buttonImage = GetComponent<Image>();
+        
+        UpdateButtonAppearance();
+    }
+    
+    void UpdateButtonAppearance()
+    {
+        if (buttonImage == null) return;
+        
+        if (isSelected)
         {
-            button.onClick.AddListener(OnButtonClicked);
+            buttonImage.color = selectedColor;
         }
-
-        // If assignedSpell is set, use it
-        if (assignedSpell != null)
+        else if (isHovered)
         {
-            UpdateButtonUI(assignedSpell);
+            buttonImage.color = hoverColor;
         }
-        // Otherwise, get from SpellManager
-        else if (SpellManager.Instance != null && spellIndex < SpellManager.Instance.learnedSpells.Count)
+        else
         {
-            Spell spell = SpellManager.Instance.learnedSpells[spellIndex];
-            UpdateButtonUI(spell);
+            // Default color based on spell type
+            Spell spell = GetSpell();
+            if (spell != null)
+            {
+                if (spell is ElementalMagic elemental)
+                    buttonImage.color = GetElementColor(elemental.type) * 0.8f;
+                else if (spell is OffensiveSpell)
+                    buttonImage.color = Color.red * 0.8f;
+                else if (spell is DefensiveSpell)
+                    buttonImage.color = Color.green * 0.8f;
+            }
+            else
+            {
+                buttonImage.color = normalColor;
+            }
         }
     }
-
-    private void UpdateButtonUI(Spell spell)
+    
+    // ===== WAND INTERACTION =====
+    
+    public void OnWandHoverEnter()
     {
-        if (spellNameText != null)
-        {
-            spellNameText.text = spell.spellName;
-
-            // Color based on spell type
-            if (spell is ElementalMagic elemental)
-                spellNameText.color = GetElementColor(elemental.type);
-            else if (spell is OffensiveSpell)
-                spellNameText.color = Color.red;
-            else if (spell is DefensiveSpell)
-                spellNameText.color = Color.green;
-        }
-
-        if (manaCostText != null)
-            manaCostText.text = $"Mana: {spell.manaCost}";
-
-        if (iconImage != null)
-        {
-            // Set icon color based on spell type
-            if (spell is ElementalMagic elemental)
-                iconImage.color = GetElementColor(elemental.type);
-        }
+        if (isHovered || isSelected) return;
+        
+        isHovered = true;
+        UpdateButtonAppearance();
+        
+        Debug.Log($"Hovering: {GetSpellName()}");
     }
-
-    private Color GetElementColor(ElementType element)
+    
+    public void OnWandHoverExit()
+    {
+        if (!isHovered) return;
+        
+        isHovered = false;
+        UpdateButtonAppearance();
+    }
+    
+    public void OnSelected()
+    {
+        isSelected = true;
+        UpdateButtonAppearance();
+        Debug.Log($"Selected: {GetSpellName()}");
+    }
+    
+    public void Deselect()
+    {
+        isSelected = false;
+        UpdateButtonAppearance();
+    }
+    
+    // ===== UTILITY METHODS =====
+    
+    public Spell GetSpell()
+    {
+        if (assignedSpell != null) return assignedSpell;
+        
+        if (SpellManager.Instance != null && 
+            spellIndex >= 0 && 
+            spellIndex < SpellManager.Instance.learnedSpells.Count)
+        {
+            return SpellManager.Instance.learnedSpells[spellIndex];
+        }
+        
+        return null;
+    }
+    
+    public string GetSpellName()
+    {
+        Spell spell = GetSpell();
+        return spell != null ? spell.spellName : "Unknown";
+    }
+    
+    Color GetElementColor(ElementType element)
     {
         switch (element)
         {
@@ -79,58 +124,6 @@ public class SpellSelectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
             case ElementType.Earth: return new Color(0.6f, 0.4f, 0.2f);
             case ElementType.Wind: return new Color(0.8f, 1f, 1f);
             default: return Color.white;
-        }
-    }
-
-    private void OnButtonClicked()
-    {
-        if (SpellManager.Instance == null) return;
-
-        // Use assigned spell or index
-        if (assignedSpell != null)
-        {
-            SpellManager.Instance.SetActiveSpell(assignedSpell);
-        }
-        else if (spellIndex < SpellManager.Instance.learnedSpells.Count)
-        {
-            SpellManager.Instance.SetActiveSpell(SpellManager.Instance.learnedSpells[spellIndex]);
-        }
-
-        SetSelected(true);
-        Debug.Log($"Selected spell via button: {SpellManager.Instance.GetActiveSpell()?.spellName}");
-    }
-
-    public void SetSelected(bool selected)
-    {
-        isSelected = selected;
-
-        if (background != null)
-        {
-            background.color = selected ? selectedColor : normalColor;
-        }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (background != null && !isSelected)
-        {
-            background.color = highlightColor;
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (background != null && !isSelected)
-        {
-            background.color = normalColor;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (button != null)
-        {
-            button.onClick.RemoveListener(OnButtonClicked);
         }
     }
 }

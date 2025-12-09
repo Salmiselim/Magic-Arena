@@ -3,252 +3,351 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-public class WandController : MonoBehaviour
+[RequireComponent(typeof(XRGrabInteractable))]
+public class WandControllerV3 : MonoBehaviour
 {
-    [Header("Wand References")]
-    public XRGrabInteractable grabInteractable;
+    [Header("References")]
     public TrailRenderer spellTrail;
     public PlayerStats playerStats;
     public SpellManager spellManager;
-
-    [Header("UI References")]
-    public Canvas spellMenuCanvas; // Only this one - your "Select your spell" Canvas
-
+    public Canvas spellMenuCanvas;
+    public Transform wandTip;
+    
     [Header("Input Actions")]
-    public InputActionReference toggleMenuAction;  // Left Primary Button
-    public InputActionReference triggerAction;     // Right Trigger
-
+    public InputActionReference toggleMenuAction;
+    public InputActionReference triggerAction;
+    
     [Header("Settings")]
     public float castCooldown = 0.5f;
+    public float spellSpawnOffset = 0.1f;
+    public float uiInteractionRange = 0.5f;
+    
+    // Components
+    private XRGrabInteractable grabInteractable;
+    private Rigidbody rb;
+    
+    // State - MAKE THESE PUBLIC OR ADD GETTERS
+    public bool isMenuOpen = false;
+    public bool canCast = true;
+    public Spell currentSpell;
+    private Transform originalParent;
+    public bool isHeldByRightHand = false;
+    private SpellSelectButton hoveredButton;
 
-    // State
-    private bool isMenuOpen = false;
-    private bool canCast = true;
-    private Spell currentSpell;
-
-    private void Start()
+    void Awake()
     {
-        // Initialize spells with this controller as caster
-        if (spellManager != null)
-        {
-            foreach (Spell spell in spellManager.learnedSpells)
-            {
-                spell.Initialize(this);
-            }
-
-            // Set initial spell
-            currentSpell = spellManager.GetActiveSpell();
-            if (currentSpell == null && spellManager.learnedSpells.Count > 0)
-            {
-                spellManager.SetActiveSpell(spellManager.learnedSpells[0]);
-                currentSpell = spellManager.learnedSpells[0];
-            }
-        }
-
-        // Hide menu by default
-        if (spellMenuCanvas != null)
-            spellMenuCanvas.enabled = false;
-
-        // Setup trail
-        if (spellTrail != null)
-            spellTrail.enabled = false;
-
-        // Setup input
-        SetupInputActions();
+        grabInteractable = GetComponent<XRGrabInteractable>();
+        rb = GetComponent<Rigidbody>();
+        originalParent = transform.parent;
+        
+        grabInteractable.selectEntered.AddListener(OnGrabAttempt);
+        grabInteractable.selectExited.AddListener(OnWandReleased);
+        
+        grabInteractable.movementType = XRBaseInteractable.MovementType.Instantaneous;
+        grabInteractable.trackPosition = true;
+        grabInteractable.trackRotation = true;
     }
 
-    private void SetupInputActions()
+    void Start()
     {
-        if (toggleMenuAction != null)
+        if (spellManager != null && spellManager.learnedSpells.Count > 0)
+        {
+            currentSpell = spellManager.GetActiveSpell() ?? spellManager.learnedSpells[0];
+        }
+        
+        if (spellMenuCanvas != null)
+            spellMenuCanvas.enabled = false;
+        
+        if (spellTrail != null)
+            spellTrail.enabled = false;
+        
+        SetupInputActions();
+        
+        Debug.Log("Wand initialized. Press Left Primary Button for menu.");
+    }
+    
+    void Update()
+    {
+        // Check for UI interaction when menu is open
+        if (isMenuOpen && isHeldByRightHand)
+        {
+            CheckUIInteraction();
+            
+            // Also check for trigger to select button
+            if (hoveredButton != null && triggerAction != null && 
+                triggerAction.action.ReadValue<float>() > 0.1f)
+            {
+                SelectCurrentButton();
+            }
+        }
+        
+    }
+    
+    void CheckUIInteraction()
+    {
+        Vector3 tipPos = GetWandTipPosition();
+        Vector3 tipDir = GetWandTipDirection();
+        
+        Debug.DrawRay(tipPos, tipDir * uiInteractionRange, Color.green);
+        
+        RaycastHit hit;
+        if (Physics.Raycast(tipPos, tipDir, out hit, uiInteractionRange))
+        {
+            SpellSelectButton button = hit.collider.GetComponent<SpellSelectButton>();
+            if (button != null && button != hoveredButton)
+            {
+                // New button hovered
+                if (hoveredButton != null)
+                    hoveredButton.OnWandHoverExit();
+                
+                hoveredButton = button;
+                hoveredButton.OnWandHoverEnter();
+                Debug.Log($"Hovering over: {button.GetSpellName()}");
+            }
+        }
+        else if (hoveredButton != null)
+        {
+            // No button under cursor
+            hoveredButton.OnWandHoverExit();
+            hoveredButton = null;
+        }
+    }
+    
+    void SelectCurrentButton()
+    {
+        if (hoveredButton == null) return;
+        
+        Spell selectedSpell = hoveredButton.GetSpell();
+        if (selectedSpell != null)
+        {
+            SetCurrentSpell(selectedSpell);
+            
+            if (SpellManager.Instance != null)
+                SpellManager.Instance.SetActiveSpell(selectedSpell);
+            
+            hoveredButton.OnSelected();
+            CloseSpellMenu();
+            
+            Debug.Log($"Selected: {selectedSpell.spellName}");
+            
+            hoveredButton = null;
+        }
+    }
+    
+    void OnGrabAttempt(SelectEnterEventArgs args)
+    {
+        string handName = args.interactorObject.transform.name.ToLower();
+        bool isLeftHand = handName.Contains("left") || handName.Contains("_l");
+        
+        if (isLeftHand)
+        {
+            Debug.Log("Left hand blocked");
+            StartCoroutine(CancelLeftHandGrab(args.interactorObject));
+            return;
+        }
+        
+        Debug.Log($"Right hand grabbed");
+        isHeldByRightHand = true;
+        
+        if (rb != null) rb.isKinematic = true;
+        
+        if (grabInteractable.attachTransform != null)
+        {
+            transform.position = grabInteractable.attachTransform.position;
+            transform.rotation = grabInteractable.attachTransform.rotation;
+            transform.SetParent(grabInteractable.attachTransform);
+        }
+    }
+    
+    IEnumerator CancelLeftHandGrab(IXRSelectInteractor leftHand)
+    {
+        yield return null;
+        if (leftHand != null && leftHand.isSelectActive)
+            grabInteractable.interactionManager.SelectExit(leftHand, grabInteractable);
+    }
+    
+    void OnWandReleased(SelectExitEventArgs args)
+    {
+        Debug.Log("Wand released");
+        isHeldByRightHand = false;
+        transform.SetParent(originalParent);
+        
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
+    
+    void SetupInputActions()
+    {
+        if (toggleMenuAction != null && toggleMenuAction.action != null)
         {
             toggleMenuAction.action.Enable();
             toggleMenuAction.action.performed += OnMenuToggle;
         }
-
-        if (triggerAction != null)
+        
+        if (triggerAction != null && triggerAction.action != null)
         {
             triggerAction.action.Enable();
             triggerAction.action.performed += OnTriggerPressed;
             triggerAction.action.canceled += OnTriggerReleased;
         }
     }
-
-    #region Input Handlers
-
-    private void OnMenuToggle(InputAction.CallbackContext context)
+    
+    void OnMenuToggle(InputAction.CallbackContext context)
     {
         ToggleSpellMenu();
     }
-
-    private void OnTriggerPressed(InputAction.CallbackContext context)
+    
+  private void OnTriggerPressed(InputAction.CallbackContext context)
+{
+    if (!canCast || !isHeldByRightHand) return;
+    
+    // If menu is open, trigger is for UI selection, not casting
+    if (isMenuOpen)
     {
-        if (!canCast || !grabInteractable.isSelected || isMenuOpen) return;
-
-        CastSpell();
+        // UI selection is handled in CheckUIInteraction()
+        return;
     }
-
-    private void OnTriggerReleased(InputAction.CallbackContext context)
+    
+    // Menu is closed - cast spell!
+    CastSpell();
+}
+    
+    void OnTriggerReleased(InputAction.CallbackContext context)
     {
         if (spellTrail != null)
             spellTrail.enabled = false;
     }
-
-    #endregion
-
-    #region Spell Functions
-
-    private void ToggleSpellMenu()
+    
+    // ===== PUBLIC METHODS =====
+    
+    public void ToggleSpellMenu()
     {
         if (spellMenuCanvas == null) return;
-
+        
         isMenuOpen = !isMenuOpen;
         spellMenuCanvas.enabled = isMenuOpen;
-        Debug.Log($"Spell Menu: {(isMenuOpen ? "OPEN" : "CLOSED")}");
+        
+        if (!isMenuOpen && hoveredButton != null)
+        {
+            hoveredButton.OnWandHoverExit();
+            hoveredButton = null;
+        }
+        
+        Debug.Log($"Menu: {(isMenuOpen ? "OPEN" : "CLOSED")}");
     }
-
-    private void CastSpell()
+    
+    public bool IsMenuOpen() => isMenuOpen;
+    
+    public void CloseSpellMenu()
     {
-        if (spellManager == null || playerStats == null || currentSpell == null) return;
-
-        // Check mana
+        isMenuOpen = false;
+        if (spellMenuCanvas != null)
+            spellMenuCanvas.enabled = false;
+    }
+    
+    public void SetCurrentSpell(Spell spell)
+    {
+        currentSpell = spell;
+        Debug.Log($"Equipped: {spell.spellName}");
+    }
+    
+    // ===== MISSING METHODS (ADD THESE!) =====
+    
+    public bool CanCast() 
+    { 
+        return canCast && isHeldByRightHand && !isMenuOpen && currentSpell != null;
+    }
+    
+    public Spell GetCurrentSpell() 
+    { 
+        return currentSpell; 
+    }
+    
+    public bool IsHeldByRightHand() 
+    { 
+        return isHeldByRightHand; 
+    }
+    
+    public bool IsCasting() 
+    { 
+        return !canCast; // When on cooldown
+    }
+    
+    // ===== CASTING =====
+    
+    void CastSpell()
+    {
+        if (currentSpell == null || playerStats == null) return;
+        
         if (!playerStats.UseMana(currentSpell.manaCost))
         {
-            Debug.Log("Not enough mana!");
+            Debug.Log("No mana!");
             return;
         }
-
-        // Get cast position from wand tip
-        Vector3 castPosition = transform.position;
-        if (grabInteractable.attachTransform != null)
-        {
-            castPosition = grabInteractable.attachTransform.position;
-        }
-
-        // Cast the spell
-        currentSpell.Cast(castPosition, transform.forward);
-
-        // Visual feedback
+        
+        Vector3 spawnPos = GetWandTipPosition();
+        Vector3 spawnDir = GetWandTipDirection();
+        
+        currentSpell.Cast(spawnPos, spawnDir);
+        
         StartCoroutine(SpellCastFeedback());
-
-        // Cooldown
         StartCoroutine(CastingCooldown());
-
+        
         Debug.Log($"Cast: {currentSpell.spellName}");
     }
-
-    // Public method for UI buttons to call
-    public void SelectSpellByName(string spellName)
+    
+    public Vector3 GetWandTipPosition()
     {
-        if (spellManager == null) return;
-
-        foreach (Spell spell in spellManager.learnedSpells)
-        {
-            if (spell.spellName == spellName)
-            {
-                spellManager.SetActiveSpell(spell);
-                currentSpell = spell;
-                Debug.Log($"Selected: {spell.spellName}");
-
-                // Close menu after selection
-                if (spellMenuCanvas != null)
-                {
-                    spellMenuCanvas.enabled = false;
-                    isMenuOpen = false;
-                }
-                return;
-            }
-        }
-
-        Debug.LogWarning($"Spell '{spellName}' not found!");
+        if (wandTip != null)
+            return wandTip.position + wandTip.forward * spellSpawnOffset;
+        return transform.position;
     }
-
-    // Alternative: Select by index
-    public void SelectSpellByIndex(int index)
+    
+    public Vector3 GetWandTipDirection()
     {
-        if (spellManager == null || index < 0 || index >= spellManager.learnedSpells.Count)
-            return;
-
-        Spell selectedSpell = spellManager.learnedSpells[index];
-        spellManager.SetActiveSpell(selectedSpell);
-        currentSpell = selectedSpell;
-        Debug.Log($"Selected: {selectedSpell.spellName}");
-
-        // Close menu
-        if (spellMenuCanvas != null)
-        {
-            spellMenuCanvas.enabled = false;
-            isMenuOpen = false;
-        }
+        if (wandTip != null)
+            return wandTip.forward;
+        return transform.forward;
     }
-
-    #endregion
-
-    #region Visual Feedback
-
-    private IEnumerator SpellCastFeedback()
+    
+    IEnumerator SpellCastFeedback()
     {
-        // Enable trail
         if (spellTrail != null)
         {
             spellTrail.enabled = true;
-
-            // Color based on spell type
-            if (currentSpell is ElementalMagic elemental)
-            {
-                spellTrail.startColor = GetElementColor(elemental.type);
-                spellTrail.endColor = new Color(spellTrail.startColor.r, spellTrail.startColor.g, spellTrail.startColor.b, 0);
-            }
-        }
-
-        // Simple wand recoil
-        Vector3 originalPos = transform.localPosition;
-        transform.localPosition = originalPos + Vector3.back * 0.05f;
-        yield return new WaitForSeconds(0.05f);
-        transform.localPosition = originalPos;
-
-        // Keep trail for a bit
-        yield return new WaitForSeconds(0.3f);
-
-        if (spellTrail != null)
+            yield return new WaitForSeconds(0.3f);
             spellTrail.enabled = false;
+        }
     }
-
-    private IEnumerator CastingCooldown()
+    
+    IEnumerator CastingCooldown()
     {
         canCast = false;
         yield return new WaitForSeconds(castCooldown);
         canCast = true;
     }
-
-    private Color GetElementColor(ElementType element)
+    
+    void OnDestroy()
     {
-        switch (element)
-        {
-            case ElementType.Fire: return new Color(1f, 0.5f, 0f);
-            case ElementType.Ice: return new Color(0f, 0.8f, 1f);
-            case ElementType.Lightning: return new Color(1f, 1f, 0f);
-            case ElementType.Earth: return new Color(0.6f, 0.4f, 0.2f);
-            case ElementType.Wind: return new Color(0.8f, 1f, 1f);
-            default: return Color.white;
-        }
-    }
-
-    #endregion
-
-    #region Cleanup
-
-    private void OnDestroy()
-    {
-        if (toggleMenuAction != null)
+        if (toggleMenuAction != null && toggleMenuAction.action != null)
             toggleMenuAction.action.performed -= OnMenuToggle;
-
-        if (triggerAction != null)
+            
+        if (triggerAction != null && triggerAction.action != null)
         {
             triggerAction.action.performed -= OnTriggerPressed;
             triggerAction.action.canceled -= OnTriggerReleased;
         }
+        
+        if (grabInteractable != null)
+        {
+            grabInteractable.selectEntered.RemoveListener(OnGrabAttempt);
+            grabInteractable.selectExited.RemoveListener(OnWandReleased);
+        }
     }
-
-    #endregion
 }
