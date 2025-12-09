@@ -25,4 +25,5 @@ public class ElementalMagic : Spell
             // TODO: apply effect based on type (burn, slow, stun, etc.)
         }
     }
+    
 }
