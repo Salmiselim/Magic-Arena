@@ -1050,7 +1050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8135023674665499069, guid: 58d0a4ac86f2348deb02f3880c71378e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8518324294302271954, guid: 58d0a4ac86f2348deb02f3880c71378e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1240,7 +1240,6 @@ GameObject:
   m_Component:
   - component: {fileID: 625176913}
   - component: {fileID: 625176912}
-  - component: {fileID: 625176914}
   m_Layer: 0
   m_Name: UItest
   m_TagString: Untagged
@@ -1277,25 +1276,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &625176914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625176911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdb5f123d066f774a913382c233cce4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICameraFollower
-  rightHandController: {fileID: 1635713676}
-  handOffset: {x: 0.1, y: 0.1, z: 0}
-  followSmoothness: 10
-  facePlayer: 1
-  keepUpright: 1
-  stayInView: 1
-  viewMargin: 0.1
 --- !u!1 &641477738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +1908,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828680477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4215834425101022254, guid: aea9491c571989447bd45690d9463eb9, type: 3}
+  m_PrefabInstance: {fileID: 913417408028119855}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &828680480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5577341058858673926, guid: aea9491c571989447bd45690d9463eb9, type: 3}
+  m_PrefabInstance: {fileID: 913417408028119855}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828680477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4429787f90ab05498d20ba4cff72c5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WandController
+--- !u!114 &828680487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828680477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2caba0f309d36c44af922dad0dd80b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpellDebugger
+  wand: {fileID: 828680480}
 --- !u!1001 &835848008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5364,6 +5373,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575595758}
   m_CullTransparentMesh: 1
+--- !u!114 &1584455365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958173101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb5f123d066f774a913382c233cce4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UICameraFollower
+  rightHandController: {fileID: 1635713676}
+  handOffset: {x: 0.1, y: 0.1, z: 0}
+  followSmoothness: 10
+  facePlayer: 1
+  keepUpright: 1
+  stayInView: 1
+  viewMargin: 0.1
 --- !u!4 &1635713676
 Transform:
   m_ObjectHideFlags: 0
@@ -6515,6 +6543,7 @@ GameObject:
   - component: {fileID: 1958173103}
   - component: {fileID: 1958173102}
   - component: {fileID: 1958173107}
+  - component: {fileID: 1584455365}
   m_Layer: 5
   m_Name: SpellSelect
   m_TagString: Untagged
@@ -7865,10 +7894,17 @@ PrefabInstance:
       propertyPath: isHeldByRightHand
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5577341058858673926, guid: aea9491c571989447bd45690d9463eb9, type: 3}
+      propertyPath: selectSpellAction
+      value: 
+      objectReference: {fileID: -3433326488793122053, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4215834425101022254, guid: aea9491c571989447bd45690d9463eb9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 828680487}
   m_SourcePrefab: {fileID: 100100000, guid: aea9491c571989447bd45690d9463eb9, type: 3}
 --- !u!114 &942810691258356160
 MonoBehaviour:

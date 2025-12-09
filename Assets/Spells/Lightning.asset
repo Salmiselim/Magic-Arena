@@ -17,4 +17,4 @@ MonoBehaviour:
   cooldown: 10
   castTime: 0.1
   type: 2
-  effectPrefab: {fileID: 4888162879819036968, guid: b4aa7187deb229c40bb7af634e387c93, type: 3}
+  effectPrefab: {fileID: 2705533495200665743, guid: e84c40719cee66744925cce01bef28fc, type: 3}

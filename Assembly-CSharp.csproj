@@ -58,6 +58,7 @@
     <Compile Include="Assets\Spells\Script\Projectile.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\BooleanToggleVisualsController.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\RayAttachModifier.cs" />
+    <Compile Include="Assets\Spells\Script\SpellDebugger.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\XRPokeFollowAffordanceFill.cs" />
     <Compile Include="Assets\Enemies\Script\EnemyFollow.cs" />
     <Compile Include="Assets\Spells\Script\WandDebugger.cs" />

@@ -79,12 +79,53 @@ public class SpellSelectButton : MonoBehaviour
         UpdateButtonAppearance();
     }
     
-    public void OnSelected()
+public void OnSelected()
+{
+    isSelected = true;
+    UpdateButtonAppearance();
+    Debug.Log($"Selected: {GetSpellName()}");
+    
+    // Find wand and set spell
+    WandControllerV3 wand = FindObjectOfType<WandControllerV3>();
+    if (wand != null)
     {
-        isSelected = true;
-        UpdateButtonAppearance();
-        Debug.Log($"Selected: {GetSpellName()}");
+        Spell spell = GetSpell();
+        if (spell != null)
+        {
+            wand.SetCurrentSpell(spell);
+            
+            if (SpellManager.Instance != null)
+                SpellManager.Instance.SetActiveSpell(spell);
+            
+            wand.CloseSpellMenu();
+        }
     }
+}
+void SelectSpellForWand()
+{
+    Spell spell = GetSpell();
+    if (spell == null) return;
+    
+    // Find the wand
+    WandControllerV3 wand = FindObjectOfType<WandControllerV3>();
+    if (wand != null)
+    {
+        // Set spell on wand
+        wand.SetCurrentSpell(spell);
+        Debug.Log($"Set wand spell to: {spell.spellName}");
+    }
+    else
+    {
+        Debug.LogError("No WandControllerV3 found in scene!");
+    }
+    
+    // Also update SpellManager
+    if (SpellManager.Instance != null)
+    {
+        SpellManager.Instance.SetActiveSpell(spell);
+        Debug.Log($"Set SpellManager active to: {spell.spellName}");
+    }
+}
     
     public void Deselect()
     {

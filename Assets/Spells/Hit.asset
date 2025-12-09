@@ -18,4 +18,4 @@ MonoBehaviour:
   castTime: 0.1
   damage: 10
   range: 10
-  projectilePrefab: {fileID: 8406771570074997170, guid: 0e639d963dad06f49b035c612cb6270b, type: 3}
+  projectilePrefab: {fileID: 8116663575987147328, guid: 2c2aeed80dda70a4ba1d1abb464a7c56, type: 3}
