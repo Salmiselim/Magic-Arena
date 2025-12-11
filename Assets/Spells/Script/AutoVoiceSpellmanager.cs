@@ -118,16 +118,6 @@ public class AutoVoiceSpellManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // Manual restart with U key (Unity input, not Input System)
-        if (UnityEngine.Input.GetKeyDown(KeyCode.U))
-        {
-            Debug.Log("🔄 Manual restart requested...");
-            RestartVoiceRecognition();
-        }
-    }
-
     void RestartVoiceRecognition()
     {
         StopVoiceRecognition();
