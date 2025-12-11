@@ -104,6 +104,7 @@
     <Compile Include="Assets\VRTemplateAssets\Scripts\CalloutGazeController.cs" />
     <Compile Include="Assets\Enemies\Script\LevelManager.cs" />
     <Compile Include="Assets\Artworks\Runes\PuzzleManager.cs" />
+    <Compile Include="Assets\Spells\Script\AutoVoiceSpellmanager.cs" />
     <Compile Include="Assets\Artworks\new stuff\SpellProjectile.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\StepManager.cs" />
     <Compile Include="Assets\Enemies\Script\BaseballBat.cs" />
@@ -1163,12 +1164,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.XR.Hands.Analytics.Hooks.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.XR.CoreUtils.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.2D.Common.Path.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Path.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.XR.CoreUtils.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
@@ -1315,16 +1316,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.XR.ARFoundation.VisualScripting.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.XR.ARFoundation.InternalUtils">
-      <HintPath>Library\ScriptAssemblies\Unity.XR.ARFoundation.InternalUtils.dll</HintPath>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+    <Reference Include="Unity.XR.ARFoundation.InternalUtils">
+      <HintPath>Library\ScriptAssemblies\Unity.XR.ARFoundation.InternalUtils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
@@ -1363,12 +1364,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.XR.Simulation.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
-      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
+    <Reference Include="Unity.2D.Sprite.AIIntegration.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.AIIntegration.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.SpriteShape.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
+    <Reference Include="Unity.RenderPipelines.Core.Editor.Shared">
+      <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.Shared.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
@@ -1379,8 +1380,8 @@
       <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.2D.Sprite.AIIntegration.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.AIIntegration.Editor.dll</HintPath>
+    <Reference Include="Unity.2D.SpriteShape.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
@@ -1495,10 +1496,6 @@
       <HintPath>Library\ScriptAssemblies\Unity.XR.Hands.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
-      <HintPath>Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.XR.OpenXR.Features.MetaQuestSupport.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1513,6 +1510,10 @@
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
+      <HintPath>Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Multiplayer.Center.Common">

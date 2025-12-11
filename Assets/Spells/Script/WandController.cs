@@ -37,7 +37,7 @@ public class WandControllerV3 : MonoBehaviour
     private Transform originalParent;
     public bool isHeldByRightHand = false;
     private SpellSelectButton hoveredButton;
-    
+
     // Wand effects
     private List<GameObject> activeWandEffects = new List<GameObject>();
 
@@ -451,14 +451,14 @@ IEnumerator ShowSpellNameBriefly(string spellName)
         Debug.Log($"Cast: {currentSpell.spellName}");
     }
     
-    Vector3 GetWandTipPosition()
+   public  Vector3 GetWandTipPosition()
     {
         if (wandTip != null)
             return wandTip.position + wandTip.forward * spellSpawnOffset;
         return transform.position;
     }
     
-    Vector3 GetWandTipDirection()
+   public  Vector3 GetWandTipDirection()
     {
         if (wandTip != null)
             return wandTip.forward;
@@ -503,4 +503,12 @@ IEnumerator ShowSpellNameBriefly(string spellName)
         grabInteractable.selectExited.RemoveListener(OnWandReleased);
     }
 }
+
+    public void CastSpellByVoice()
+    {
+        if (CanCast() && currentSpell != null)
+        {
+            CastSpell();
+        }
+    }
 }

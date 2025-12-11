@@ -36,7 +36,11 @@ public class SpellManager : MonoBehaviour
     public void LearnSpell(Spell newSpell)
     {
         if (!learnedSpells.Contains(newSpell))
+        {
             learnedSpells.Add(newSpell);
+
+            
+        }
     }
 
     public void SetActiveSpell(Spell spell)

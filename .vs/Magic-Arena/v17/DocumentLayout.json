@@ -3,15 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|c:\\users\\gamix\\documents\\github\\magic-arena\\assets\\spells\\script\\spellhud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\spells\\script\\spellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\spells\\script\\spellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\spells\\script\\wandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\spells\\script\\wandcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\spells\\script\\spellhud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\spells\\script\\spellhud.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|c:\\users\\gamix\\documents\\github\\magic-arena\\assets\\player\\scripts\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\player\\scripts\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\player\\scripts\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|c:\\users\\gamix\\documents\\github\\magic-arena\\assets\\enemies\\script\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\enemies\\script\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\enemies\\script\\audiomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -46,11 +54,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SpellManager.cs",
+              "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Spells\\Script\\SpellManager.cs",
+              "ToolTip": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellManager.cs",
+              "RelativeToolTip": "Assets\\Spells\\Script\\SpellManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T17:55:35.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "WandController.cs",
+              "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\WandController.cs",
+              "RelativeDocumentMoniker": "Assets\\Spells\\Script\\WandController.cs",
+              "ToolTip": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\WandController.cs",
+              "RelativeToolTip": "Assets\\Spells\\Script\\WandController.cs",
+              "ViewState": "AgIAANQBAAAAAAAAAAAAAAACAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T17:35:34.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "PlayerStats.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Player\\Scripts\\PlayerStats.cs",
               "RelativeDocumentMoniker": "Assets\\Player\\Scripts\\PlayerStats.cs",
@@ -58,25 +92,23 @@
               "RelativeToolTip": "Assets\\Player\\Scripts\\PlayerStats.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAIwEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-11T15:46:33.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-11T15:46:33.537Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "SpellHUD.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellHUD.cs",
               "RelativeDocumentMoniker": "Assets\\Spells\\Script\\SpellHUD.cs",
               "ToolTip": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellHUD.cs",
               "RelativeToolTip": "Assets\\Spells\\Script\\SpellHUD.cs",
-              "ViewState": "AgIAADMBAAAAAAAAAAAwwHgBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAAAC0AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-11T15:45:41.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-11T15:45:41.75Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "EnemySpawner.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemySpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemySpawner.cs",
@@ -88,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AudioManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\AudioManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\AudioManager.cs",
@@ -96,12 +128,11 @@
               "RelativeToolTip": "Assets\\Enemies\\Script\\AudioManager.cs",
               "ViewState": "AgIAAPAAAAAAAAAAAAAowAwBAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-04T16:00:11.816Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-04T16:00:11.816Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "WaveManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\WaveManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\WaveManager.cs",
@@ -113,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "EnemyFollow.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemyFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemyFollow.cs",
@@ -125,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "EnemyData.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemyData.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemyData.cs",
@@ -137,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "BaseballBat.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\BaseballBat.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\BaseballBat.cs",
@@ -149,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "LevelManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\LevelManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\LevelManager.cs",
