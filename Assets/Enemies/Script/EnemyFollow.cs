@@ -5,10 +5,11 @@ public class EnemyFollow : MonoBehaviour
     [Header("References")]
     private Transform player;
     private Animator anim;
-    private EnemyHealthBar healthBar;       // NEW: Reference to health bar
+    private EnemyHealthBar healthBar;
+    private AudioSource audioSource;
 
     [Header("UI")]
-    public GameObject healthBarPrefab;      // NEW: Assign in Inspector
+    public GameObject healthBarPrefab;
 
     [Header("Runtime Stats (Set by EnemyData)")]
     public float moveSpeed = 2f;
@@ -20,6 +21,7 @@ public class EnemyFollow : MonoBehaviour
 
     private bool isActive = false;
     private float lastAttackTime;
+    private float nextWalkSoundTime;
 
     // Reference to the data that created this enemy
     [HideInInspector]
@@ -31,11 +33,22 @@ public class EnemyFollow : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentHealth = maxHealth;
 
-        // NEW: Spawn health bar
+        // Get or add AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.spatialBlend = 1f; // 3D sound
+        audioSource.minDistance = 5f;
+        audioSource.maxDistance = 20f;
+        audioSource.volume = 0.8f; // Ensure volume is reasonable
+
+        // Spawn health bar (but DON'T play spawn sound yet)
         SpawnHealthBar();
     }
 
-    // NEW: Create health bar above enemy head
+    // Create health bar above enemy head
     void SpawnHealthBar()
     {
         if (healthBarPrefab != null)
@@ -53,11 +66,8 @@ public class EnemyFollow : MonoBehaviour
         {
             Debug.LogWarning("⚠️ No health bar prefab assigned to enemy!");
         }
-        // Play spawn sound
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayEnemySpawn(transform.position);
-        }
+
+        // DON'T play spawn sound here - it will be played after Initialize()
     }
 
     void Update()
@@ -69,6 +79,7 @@ public class EnemyFollow : MonoBehaviour
             new Vector3(transform.position.x, 0, transform.position.z),
             new Vector3(player.position.x, 0, player.position.z)
         );
+
         // 🟥 ATTACK if in range and cooldown ready
         if (distance <= attackRange)
         {
@@ -103,6 +114,13 @@ public class EnemyFollow : MonoBehaviour
         Vector3 direction = (player.position - transform.position).normalized;
         direction.y = 0;
         transform.position += direction * moveSpeed * Time.deltaTime;
+
+        // Play footstep sounds periodically
+        if (Time.time >= nextWalkSoundTime && enemyData != null && enemyData.walkSounds != null && enemyData.walkSounds.Length > 0)
+        {
+            PlayRandomSound(enemyData.walkSounds, 0.5f);
+            nextWalkSoundTime = Time.time + enemyData.walkSoundInterval;
+        }
     }
 
     void FacePlayer()
@@ -123,6 +141,12 @@ public class EnemyFollow : MonoBehaviour
     {
         // This is called when enemy should deal damage
         Debug.Log($"{(enemyData != null ? enemyData.enemyName : "Enemy")} attacks for {attackDamage} damage!");
+
+        // Play attack sound
+        if (enemyData != null && enemyData.attackSounds != null && enemyData.attackSounds.Length > 0)
+        {
+            PlayRandomSound(enemyData.attackSounds, 0.7f);
+        }
 
         // Example: Damage player
         // PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
@@ -151,6 +175,10 @@ public class EnemyFollow : MonoBehaviour
                 r.material = data.skinMaterial;
             }
         }
+
+        // NOW play spawn sound after enemyData is set
+        Debug.Log($"🔊 Playing spawn sound for {data.enemyName}");
+        PlaySound(data.spawnSound);
     }
 
     /// <summary>
@@ -163,16 +191,17 @@ public class EnemyFollow : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log($"{(enemyData != null ? enemyData.enemyName : "Enemy")} took {damage} damage! HP: {currentHealth}/{maxHealth}");
-        // Play hit sound
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayEnemyHit(transform.position);
-        }
-        
-        // NEW: Update health bar
+
+        // Update health bar
         if (healthBar != null)
         {
             healthBar.UpdateHealth(currentHealth, maxHealth);
+        }
+
+        // Play hit sound
+        if (enemyData != null && enemyData.hitSounds != null && enemyData.hitSounds.Length > 0)
+        {
+            PlayRandomSound(enemyData.hitSounds);
         }
 
         if (currentHealth <= 0)
@@ -187,24 +216,20 @@ public class EnemyFollow : MonoBehaviour
     void Die()
     {
         isActive = false;
-        // Play death sound
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayEnemyDeath(transform.position);
-        }
-        
-        // Play death animation if you have one
+
+        // Play death animation
         if (anim != null)
         {
             anim.SetTrigger("Die");
         }
 
+        // Play death sound
+        PlaySound(enemyData?.deathSound);
+
         // Award rewards
         if (enemyData != null)
         {
             Debug.Log($"Enemy died! +{enemyData.scoreValue} score, +{enemyData.goldValue} gold");
-            // GameManager.Instance.AddScore(enemyData.scoreValue);
-            // GameManager.Instance.AddGold(enemyData.goldValue);
         }
 
         // Notify wave manager
@@ -214,7 +239,7 @@ public class EnemyFollow : MonoBehaviour
             waveManager.OnEnemyDied(this);
         }
 
-        // NEW: Destroy health bar
+        // Destroy health bar
         if (healthBar != null)
         {
             Destroy(healthBar.gameObject);
@@ -239,11 +264,60 @@ public class EnemyFollow : MonoBehaviour
     {
         return currentHealth > 0;
     }
+
+    /// <summary>
+    /// Play a single sound
+    /// </summary>
+    void PlaySound(AudioClip clip, float volumeScale = 1f)
+    {
+        if (clip == null)
+        {
+            Debug.Log($"⚠️ {gameObject.name}: Tried to play sound but clip is NULL");
+            return;
+        }
+
+        if (audioSource == null)
+        {
+            Debug.LogWarning($"⚠️ {gameObject.name}: AudioSource is NULL!");
+            return;
+        }
+
+        Debug.Log($"🔊 {gameObject.name} playing sound: {clip.name} at volume {volumeScale}");
+        audioSource.PlayOneShot(clip, volumeScale);
+    }
+
+    /// <summary>
+    /// Play random sound from array
+    /// </summary>
+    void PlayRandomSound(AudioClip[] clips, float volumeScale = 1f)
+    {
+        if (clips == null || clips.Length == 0)
+        {
+            Debug.Log($"⚠️ {gameObject.name}: Sound array is empty or NULL");
+            return;
+        }
+
+        if (audioSource == null)
+        {
+            Debug.LogWarning($"⚠️ {gameObject.name}: AudioSource is NULL!");
+            return;
+        }
+
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip != null)
+        {
+            Debug.Log($"🔊 {gameObject.name} playing random sound: {clip.name}");
+            audioSource.PlayOneShot(clip, volumeScale);
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ {gameObject.name}: Selected clip from array is NULL!");
+        }
+    }
 }
 
 /// <summary>
 /// Helper component to destroy an enemy after a delay
-/// This runs on a separate GameObject so it won't be affected by disabling the enemy script
 /// </summary>
 public class DeathTimer : MonoBehaviour
 {
@@ -268,7 +342,7 @@ public class DeathTimer : MonoBehaviour
                 Debug.Log($"🗑️ DeathTimer destroying {targetToDestroy.name}");
                 Destroy(targetToDestroy);
             }
-            Destroy(gameObject); // Destroy this timer too
+            Destroy(gameObject);
         }
     }
 }

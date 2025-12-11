@@ -17,5 +17,12 @@ MonoBehaviour:
   cooldown: 10
   castTime: 0.2
   duration: 10
-  strength: 5
-  shieldPrefab: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba, type: 3}
+  shieldRadius: 50
+  pushbackForce: 60
+  healsPlayer: 1
+  healAmount: 25
+  pushEnemiesOnCast: 1
+  blockProjectiles: 1
+  pushbackInterval: 0.5
+  shieldPrefab: {fileID: 259305663462164751, guid: 3998009b31c71e54195beafc71e27cdf, type: 3}
+  shieldScale: 100

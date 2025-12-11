@@ -421,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Device Simulator
       objectReference: {fileID: 0}
+    - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -527,11 +531,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   menuMusic: {fileID: 0}
-  level1Music: {fileID: 8300000, guid: d10e9f88052533f40a312487fbda90ed, type: 3}
+  level1Music: {fileID: 8300000, guid: adb226ced1fd7d04c92d1fce1a62d2f0, type: 3}
   level2Music: {fileID: 8300000, guid: d10e9f88052533f40a312487fbda90ed, type: 3}
   level3Music: {fileID: 0}
   victoryMusic: {fileID: 0}
-  musicVolume: 0.5
+  musicVolume: 1
   enemySpawn: {fileID: 0}
   enemyHit: {fileID: 0}
   enemyDeath: {fileID: 0}

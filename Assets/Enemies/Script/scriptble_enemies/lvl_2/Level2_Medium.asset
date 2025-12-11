@@ -15,9 +15,16 @@ MonoBehaviour:
   enemyName: Skeleton
   level: 1
   difficulty: 0
-  prefab: {fileID: 0}
-  portalColor: {r: 0, g: 1, b: 0, a: 1}
+  prefab: {fileID: 8456608874011602690, guid: 712d43bf15f59514688bb4c5805e19a6, type: 3}
+  portalColor: {r: 0, g: 0, b: 0, a: 1}
   skinMaterial: {fileID: 0}
+  spawnSound: {fileID: 0}
+  walkSounds: []
+  hitSounds: []
+  attackSounds:
+  - {fileID: 8300000, guid: bb1a3656a96623b409d1fe90b7c9fccc, type: 3}
+  deathSound: {fileID: 0}
+  walkSoundInterval: 0.5
   moveSpeed: 2
   attackRange: 1.5
   maxHealth: 100

@@ -2891,7 +2891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e001191701fd4564996f2c65b1acdf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyFollow
-  healthBarPrefab: {fileID: 8463960432248635725, guid: ff553112c0d163949bfa470eac117e6d, type: 3}
+  healthBarPrefab: {fileID: 7098874310710577337, guid: ea8f5909c7ceb7943ad73408eec982c5, type: 3}
   moveSpeed: 2
   attackRange: 1.5
   maxHealth: 120

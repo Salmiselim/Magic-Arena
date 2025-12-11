@@ -25,6 +25,12 @@ public class SpellSelectButton : MonoBehaviour
             buttonImage = GetComponent<Image>();
         
         UpdateButtonAppearance();
+            // Make collider larger
+    BoxCollider collider = GetComponent<BoxCollider>();
+    if (collider != null)
+    {
+        collider.size = new Vector3(1.5f, 1.5f, 0.1f); // Larger hit area
+    }
     }
     
     void UpdateButtonAppearance()

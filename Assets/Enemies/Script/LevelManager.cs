@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class LevelManager : MonoBehaviour
 {
     [Header("Settings")]
-    public float levelCompleteDelay = 5f;  // Wait 3 seconds before loading next level
+    public float levelCompleteDelay = 3f;   // Wait 3 seconds before loading next level
 
     [Header("Debug Info")]
     public int currentSceneIndex;
@@ -48,10 +48,6 @@ public class LevelManager : MonoBehaviour
     public void CompleteLevel()
     {
         Debug.Log("🎉 LEVEL COMPLETE! Loading next level...");
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayLevelComplete();
-        }
         StartCoroutine(LoadNextLevelCoroutine());
     }
 
@@ -146,11 +142,43 @@ public class LevelManager : MonoBehaviour
     {
         UpdateSceneInfo();
 
-        // Play correct music for this scene
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayMusicForScene(scene.buildIndex);
-        }
+        // Play appropriate music for this level
+        PlayLevelMusic();
     }
 
+    /// <summary>
+    /// Play music based on current level
+    /// </summary>
+    void PlayLevelMusic()
+    {
+        if (AudioManager.Instance == null) return;
+
+        AudioClip musicToPlay = null;
+
+        // Determine which music to play based on scene index
+        switch (currentSceneIndex)
+        {
+            case 0: // Level 1
+                musicToPlay = AudioManager.Instance.level1Music;
+                Debug.Log("🎵 Playing Level 1 music");
+                break;
+            case 1: // Level 2
+                musicToPlay = AudioManager.Instance.level2Music;
+                Debug.Log("🎵 Playing Level 2 music");
+                break;
+            case 2: // Level 3
+                musicToPlay = AudioManager.Instance.level3Music;
+                Debug.Log("🎵 Playing Level 3 music");
+                break;
+        }
+
+        if (musicToPlay != null)
+        {
+            AudioManager.Instance.PlayMusic(musicToPlay, fadeIn: true);
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ No music assigned for scene index {currentSceneIndex}");
+        }
+    }
 }

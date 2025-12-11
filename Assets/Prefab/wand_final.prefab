@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 9059382799620066665}
   - component: {fileID: 5577341058858673926}
   - component: {fileID: 1407212512621174606}
+  - component: {fileID: 2577392847108622260}
   m_Layer: 0
   m_Name: Wand
   m_TagString: Untagged
@@ -519,13 +520,18 @@ MonoBehaviour:
   wandTip: {fileID: 3651304235866757215}
   toggleMenuAction: {fileID: -5041267194897919472, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   triggerAction: {fileID: -1694523023538837796, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  selectSpellAction: {fileID: -3433326488793122053, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   castCooldown: 0.5
   spellSpawnOffset: 0.1
   uiInteractionRange: 0.5
   isMenuOpen: 0
   canCast: 1
-  currentSpell: {fileID: 0}
+  currentSpell: {fileID: 11400000, guid: 30261a75ecc104b439b48ce2dcb8c656, type: 2}
   isHeldByRightHand: 0
+  uiPointerRadius: 0.1
+  uiLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &1407212512621174606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,4 +544,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6954b754618d896418276e925d96038b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandDebugger
+  wand: {fileID: 5577341058858673926}
+--- !u!114 &2577392847108622260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215834425101022254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2caba0f309d36c44af922dad0dd80b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpellDebugger
   wand: {fileID: 5577341058858673926}

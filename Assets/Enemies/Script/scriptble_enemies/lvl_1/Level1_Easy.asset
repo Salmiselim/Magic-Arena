@@ -18,9 +18,19 @@ MonoBehaviour:
   prefab: {fileID: 7812825236137935769, guid: 2ce4731b7c09afb41a363a605d626f47, type: 3}
   portalColor: {r: 0.052865736, g: 0.509434, b: 0.07811875, a: 1}
   skinMaterial: {fileID: 0}
+  spawnSound: {fileID: 8300000, guid: 0ccc4932f27e86f4995b2432f8ce7732, type: 3}
+  walkSounds:
+  - {fileID: 8300000, guid: c3a96e68ef2b59348aa2d3b2c9e0e9d2, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  hitSounds:
+  - {fileID: 8300000, guid: 99c9a6fd6e4bcbe4fad5c5322cd23ed6, type: 3}
+  attackSounds: []
+  deathSound: {fileID: 8300000, guid: 1c906a2ae03a6ca469109fea778c3687, type: 3}
+  walkSoundInterval: 0.5
   moveSpeed: 2
   attackRange: 1.5
-  maxHealth: 100
+  maxHealth: 25
   attackDamage: 10
   attackCooldown: 1.5
   scoreValue: 10

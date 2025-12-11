@@ -23,8 +23,9 @@ public class WandControllerV3 : MonoBehaviour
     [Header("Settings")]
     public float castCooldown = 0.5f;
     public float spellSpawnOffset = 0.1f;
-    public float uiInteractionRange = 1.0f;
-    
+    public float uiInteractionRange = 2.0f;
+    [Header("UI Settings")]
+
     // Components
     private XRGrabInteractable grabInteractable;
     private Rigidbody rb;
@@ -81,34 +82,65 @@ public class WandControllerV3 : MonoBehaviour
         }
     }
     
-    void CheckUIInteraction()
+   [Header("UI Settings")]
+ // Increased from 1.0f
+public float uiPointerRadius = 0.1f; // Wider detection
+public LayerMask uiLayerMask = ~0; // Detect all layers
+
+// Update the CheckUIInteraction method:
+void CheckUIInteraction()
+{
+    if (!isMenuOpen || !isHeldByRightHand || wandTip == null) return;
+    
+    Vector3 tipPos = GetWandTipPosition();
+    Vector3 tipDir = GetWandTipDirection();
+    
+    // Draw debug ray
+    Debug.DrawRay(tipPos, tipDir * uiInteractionRange, Color.green);
+    
+    // Use SphereCast for wider detection
+    RaycastHit[] hits = Physics.SphereCastAll(
+        tipPos, 
+        uiPointerRadius, 
+        tipDir, 
+        uiInteractionRange, 
+        uiLayerMask
+    );
+    
+    SpellSelectButton closestButton = null;
+    float closestDistance = float.MaxValue;
+    
+    foreach (RaycastHit hit in hits)
     {
-        Vector3 tipPos = GetWandTipPosition();
-        Vector3 tipDir = GetWandTipDirection();
-        
-        Debug.DrawRay(tipPos, tipDir * uiInteractionRange, Color.green);
-        
-        RaycastHit hit;
-        if (Physics.Raycast(tipPos, tipDir, out hit, uiInteractionRange))
+        SpellSelectButton button = hit.collider.GetComponent<SpellSelectButton>();
+        if (button != null)
         {
-            SpellSelectButton button = hit.collider.GetComponent<SpellSelectButton>();
-            
-            if (button != null && button != hoveredButton)
+            float distance = Vector3.Distance(tipPos, hit.point);
+            if (distance < closestDistance)
             {
-                if (hoveredButton != null)
-                    hoveredButton.OnWandHoverExit();
-                
-                hoveredButton = button;
-                hoveredButton.OnWandHoverEnter();
+                closestDistance = distance;
+                closestButton = button;
             }
-        }
-        else if (hoveredButton != null)
-        {
-            hoveredButton.OnWandHoverExit();
-            hoveredButton = null;
         }
     }
     
+    if (closestButton != null && closestButton != hoveredButton)
+    {
+        // New button hovered
+        if (hoveredButton != null)
+            hoveredButton.OnWandHoverExit();
+        
+        hoveredButton = closestButton;
+        hoveredButton.OnWandHoverEnter();
+        Debug.Log($"Hovering over: {closestButton.GetSpellName()}");
+    }
+    else if (closestButton == null && hoveredButton != null)
+    {
+        // Lost hover
+        hoveredButton.OnWandHoverExit();
+        hoveredButton = null;
+    }
+}
     void OnGrabAttempt(SelectEnterEventArgs args)
     {
         string handName = args.interactorObject.transform.name.ToLower();

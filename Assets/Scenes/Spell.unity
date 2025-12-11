@@ -1240,6 +1240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 625176913}
   - component: {fileID: 625176912}
+  - component: {fileID: 625176914}
   m_Layer: 0
   m_Name: UItest
   m_TagString: Untagged
@@ -1276,6 +1277,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &625176914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625176911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb5f123d066f774a913382c233cce4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UICameraFollower
+  rightController: {fileID: 1635713676}
+  positionOffset: {x: 0.15, y: 0, z: 0.3}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  followSpeed: 10
+  uiScale: 0.7
+  buttonSpacing: 1.2
 --- !u!1 &641477738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5373,25 +5392,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575595758}
   m_CullTransparentMesh: 1
---- !u!114 &1584455365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958173101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdb5f123d066f774a913382c233cce4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UICameraFollower
-  rightHandController: {fileID: 1635713676}
-  handOffset: {x: 0.1, y: 0.1, z: 0}
-  followSmoothness: 10
-  facePlayer: 1
-  keepUpright: 1
-  stayInView: 1
-  viewMargin: 0.1
 --- !u!4 &1635713676
 Transform:
   m_ObjectHideFlags: 0
@@ -6543,7 +6543,6 @@ GameObject:
   - component: {fileID: 1958173103}
   - component: {fileID: 1958173102}
   - component: {fileID: 1958173107}
-  - component: {fileID: 1584455365}
   m_Layer: 5
   m_Name: SpellSelect
   m_TagString: Untagged
@@ -6623,7 +6622,7 @@ RectTransform:
   m_GameObject: {fileID: 1958173101}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 5.918}
-  m_LocalScale: {x: 0.0026399642, y: 0.0026399642, z: 0.0026399642}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1876084710}
@@ -6639,7 +6638,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.806, y: 1.758}
-  m_SizeDelta: {x: 720.4, y: 368.2}
+  m_SizeDelta: {x: 0.8, y: 0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1958173107
 MonoBehaviour:
@@ -6725,13 +6724,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb5f123d066f774a913382c233cce4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIOnHandFollower
-  rightHandController: {fileID: 1635713676}
-  handOffset: {x: 0.1, y: 0.1, z: 0}
-  followSmoothness: 10
-  facePlayer: 1
-  keepUpright: 1
-  stayInView: 1
-  viewMargin: 0.1
+  rightController: {fileID: 0}
+  positionOffset: {x: 0.1, y: 0, z: 0.2}
+  rotationOffset: {x: 0, y: 180, z: 0}
+  followSpeed: 10
+  uiScale: 0.8
+  buttonSpacing: 1.2
 --- !u!224 &1958173109
 RectTransform:
   m_ObjectHideFlags: 0

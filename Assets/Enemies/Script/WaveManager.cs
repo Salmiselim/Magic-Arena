@@ -75,10 +75,6 @@ public class WaveManager : MonoBehaviour
 
     void StartNextWave()
     {
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayWaveStart();
-        }
         if (currentWave >= 3)
         {
             Debug.Log("🎉 ALL WAVES COMPLETE!");
@@ -120,8 +116,8 @@ public class WaveManager : MonoBehaviour
 
             Debug.Log($"Spawning enemy {i + 1}/{data.spawnCount} at {spawnPos}");
 
-            // Spawn enemy
-            StartCoroutine(SpawnSingleEnemy(spawnPos, data));
+            // FIXED: Wait for this enemy to fully spawn before continuing
+            yield return StartCoroutine(SpawnSingleEnemy(spawnPos, data));
 
             // Wait before next spawn
             yield return new WaitForSeconds(data.spawnDelay);
@@ -132,7 +128,10 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator SpawnSingleEnemy(Vector3 position, EnemyData data)
     {
+        Debug.Log($"🔵 SpawnSingleEnemy START for {data.enemyName} at {position}");
+
         GameObject spawnedEnemy = null;
+        bool callbackCalled = false;
 
         // Spawn with portal animation
         yield return StartCoroutine(spawner.SpawnSequenceWithData(
@@ -140,8 +139,12 @@ public class WaveManager : MonoBehaviour
             data,
             (enemyObj, enemyData) => {
                 spawnedEnemy = enemyObj;
+                callbackCalled = true;
+                Debug.Log($"🟢 Spawn callback received! Enemy: {(enemyObj != null ? enemyObj.name : "NULL")}");
             }
         ));
+
+        Debug.Log($"🟡 After SpawnSequenceWithData - Callback called: {callbackCalled}, Enemy: {(spawnedEnemy != null ? spawnedEnemy.name : "NULL")}");
 
         if (spawnedEnemy != null)
         {
@@ -152,27 +155,51 @@ public class WaveManager : MonoBehaviour
                 spawnedEnemy.tag = "Enemy";
             }
 
-            // Initialize enemy
-            EnemyFollow enemy = spawnedEnemy.GetComponent<EnemyFollow>();
-            if (enemy != null)
+            // Try to initialize - check for BOTH EnemyFollow AND EnemyRanged
+            EnemyFollow meleeEnemy = spawnedEnemy.GetComponent<EnemyFollow>();
+            EnemyRanged rangedEnemy = spawnedEnemy.GetComponent<EnemyRanged>();
+
+            Debug.Log($"🔍 Components check - Melee: {meleeEnemy != null}, Ranged: {rangedEnemy != null}");
+
+            bool initialized = false;
+
+            if (meleeEnemy != null)
             {
-                enemy.Initialize(data);
+                // It's a melee enemy
+                Debug.Log($"⚔️ Initializing as MELEE enemy...");
+                meleeEnemy.Initialize(data);
+                initialized = true;
+                Debug.Log($"✅ Melee enemy initialized: {spawnedEnemy.name}");
+            }
+            else if (rangedEnemy != null)
+            {
+                // It's a ranged enemy
+                Debug.Log($"🏹 Initializing as RANGED enemy...");
+                rangedEnemy.Initialize(data);
+                initialized = true;
+                Debug.Log($"✅ Ranged enemy initialized: {spawnedEnemy.name}");
             }
             else
             {
-                Debug.LogError("Spawned enemy has no EnemyFollow script!");
+                // Neither script found - this is an error
+                Debug.LogError($"❌ Enemy has NEITHER EnemyFollow NOR EnemyRanged script! GameObject: {spawnedEnemy.name}");
             }
 
-            // Track it
-            spawnedEnemies.Add(spawnedEnemy);
-            aliveEnemies++;
+            if (initialized)
+            {
+                // Track it
+                spawnedEnemies.Add(spawnedEnemy);
+                aliveEnemies++;
 
-            Debug.Log($"✅ Enemy spawned and tracked! Name: {spawnedEnemy.name}, Tag: {spawnedEnemy.tag}, Alive: {aliveEnemies}/{totalEnemiesInWave}");
+                Debug.Log($"✅ Enemy spawned and tracked! Name: {spawnedEnemy.name}, Tag: {spawnedEnemy.tag}, Alive: {aliveEnemies}/{totalEnemiesInWave}");
+            }
         }
         else
         {
-            Debug.LogError("❌ Enemy failed to spawn!");
+            Debug.LogError("❌ Enemy failed to spawn - spawnedEnemy is NULL!");
         }
+
+        Debug.Log($"🔵 SpawnSingleEnemy END");
     }
 
     Vector3 GetRandomSpawnPosition()
@@ -190,14 +217,15 @@ public class WaveManager : MonoBehaviour
         return spawnPos;
     }
 
-    public void OnEnemyDied(EnemyFollow enemy)
+    // Main method that accepts GameObject (works for both enemy types)
+    public void OnEnemyDied(GameObject enemyObject)
     {
-        Debug.Log($"📢 WaveManager.OnEnemyDied called for {(enemy != null ? enemy.gameObject.name : "NULL")}");
+        Debug.Log($"📢 WaveManager.OnEnemyDied called for {(enemyObject != null ? enemyObject.name : "NULL")}");
 
-        // Remove from tracking (but DON'T destroy - enemy destroys itself!)
-        if (enemy != null && enemy.gameObject != null)
+        // Remove from tracking
+        if (enemyObject != null)
         {
-            spawnedEnemies.Remove(enemy.gameObject);
+            spawnedEnemies.Remove(enemyObject);
             Debug.Log($"  ✅ Removed from tracking list");
         }
 
@@ -213,16 +241,22 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    // Overload for EnemyFollow backward compatibility
+    public void OnEnemyDied(EnemyFollow enemy)
+    {
+        if (enemy != null)
+        {
+            OnEnemyDied(enemy.gameObject);
+        }
+    }
+
     void WaveComplete()
     {
         waveActive = false;
         currentWave++;
 
         Debug.Log($"✅✅✅ WAVE {currentWave} COMPLETE! ✅✅✅");
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayWaveComplete();
-        }
+
         if (currentWave >= 3)
         {
             Debug.Log("🎉🎉🎉 ALL WAVES COMPLETE! 🎉🎉🎉");
@@ -257,6 +291,20 @@ public class WaveManager : MonoBehaviour
                 NuclearKillAll();
             }
 
+            // Press H to damage all enemies (50 damage)
+            if (Keyboard.current.hKey.wasPressedThisFrame)
+            {
+                Debug.Log("💥 H PRESSED - DAMAGING ALL ENEMIES");
+                DamageAllEnemies(50);
+            }
+
+            // Press J to damage all enemies (10 damage)
+            if (Keyboard.current.jKey.wasPressedThisFrame)
+            {
+                Debug.Log("💥 J PRESSED - SMALL DAMAGE TO ALL ENEMIES");
+                DamageAllEnemies(10);
+            }
+
             // Press I for debug info
             if (Keyboard.current.iKey.wasPressedThisFrame)
             {
@@ -287,6 +335,47 @@ public class WaveManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Damage all enemies by a specified amount (for testing)
+    /// </summary>
+    void DamageAllEnemies(int damageAmount)
+    {
+        Debug.Log($"💥💥💥 DAMAGING ALL ENEMIES ({damageAmount} damage) 💥💥💥");
+
+        // Find BOTH types of enemies
+        EnemyFollow[] meleeEnemies = FindObjectsOfType<EnemyFollow>();
+        EnemyRanged[] rangedEnemies = FindObjectsOfType<EnemyRanged>();
+
+        int totalEnemies = meleeEnemies.Length + rangedEnemies.Length;
+        Debug.Log($"Found {totalEnemies} enemies ({meleeEnemies.Length} melee, {rangedEnemies.Length} ranged)");
+
+        int damagedCount = 0;
+
+        // Damage melee enemies
+        foreach (EnemyFollow enemy in meleeEnemies)
+        {
+            if (enemy != null && enemy.IsAlive())
+            {
+                Debug.Log($"  💥 Damaging melee: {enemy.gameObject.name}");
+                enemy.TakeDamage(damageAmount);
+                damagedCount++;
+            }
+        }
+
+        // Damage ranged enemies
+        foreach (EnemyRanged enemy in rangedEnemies)
+        {
+            if (enemy != null && enemy.IsAlive())
+            {
+                Debug.Log($"  💥 Damaging ranged: {enemy.gameObject.name}");
+                enemy.TakeDamage(damageAmount);
+                damagedCount++;
+            }
+        }
+
+        Debug.Log($"💥 Damaged {damagedCount} enemies for {damageAmount} damage each!");
+    }
+
+    /// <summary>
     /// NUCLEAR OPTION: Kill all enemies with death animations
     /// </summary>
     void NuclearKillAll()
@@ -295,29 +384,47 @@ public class WaveManager : MonoBehaviour
 
         StopAllCoroutines();
 
-        EnemyFollow[] allEnemies = FindObjectsOfType<EnemyFollow>();
-        Debug.Log($"Found {allEnemies.Length} enemies to kill with death animation");
+        // Find BOTH types of enemies
+        EnemyFollow[] meleeEnemies = FindObjectsOfType<EnemyFollow>();
+        EnemyRanged[] rangedEnemies = FindObjectsOfType<EnemyRanged>();
+
+        int totalEnemies = meleeEnemies.Length + rangedEnemies.Length;
+        Debug.Log($"Found {totalEnemies} enemies ({meleeEnemies.Length} melee, {rangedEnemies.Length} ranged)");
 
         int killedCount = 0;
-        foreach (EnemyFollow enemy in allEnemies)
+
+        // Kill melee enemies
+        foreach (EnemyFollow enemy in meleeEnemies)
         {
-            if (enemy != null && enemy.IsAlive())
+            if (enemy != null)
             {
-                Debug.Log($"  💀 Triggering death for: {enemy.gameObject.name}");
+                bool wasAlive = enemy.IsAlive();
+                Debug.Log($"  💀 Melee: {enemy.gameObject.name}, Alive: {wasAlive}");
                 enemy.TakeDamage(9999);
                 killedCount++;
             }
         }
 
-        Debug.Log($"💀 Triggered death animation for {killedCount} enemies");
+        // Kill ranged enemies
+        foreach (EnemyRanged enemy in rangedEnemies)
+        {
+            if (enemy != null)
+            {
+                bool wasAlive = enemy.IsAlive();
+                Debug.Log($"  💀 Ranged: {enemy.gameObject.name}, Alive: {wasAlive}, Active: {enemy.isActiveAndEnabled}");
+                enemy.TakeDamage(9999);
+                killedCount++;
+            }
+        }
+
+        Debug.Log($"💀 Killed {killedCount} enemies");
 
         spawnedEnemies.Clear();
         aliveEnemies = 0;
 
-        // ******** FIX HERE ********
         if (waveActive)
         {
-            Debug.Log("🔥 Force completing wave (death animations will continue)");
+            Debug.Log("🔥 Force completing wave");
             CancelInvoke();
             WaveComplete();
         }
@@ -325,36 +432,38 @@ public class WaveManager : MonoBehaviour
         Debug.Log("🔥 Nuclear kill complete!");
     }
 
-
     void KillAllEnemies()
     {
         Debug.Log($"=== KILLING ALL ENEMIES ===");
 
-        // Find all enemies with the script
-        EnemyFollow[] allEnemies = FindObjectsOfType<EnemyFollow>();
-        Debug.Log($"Found {allEnemies.Length} enemies to kill");
+        // Find all enemy types
+        EnemyFollow[] meleeEnemies = FindObjectsOfType<EnemyFollow>();
+        EnemyRanged[] rangedEnemies = FindObjectsOfType<EnemyRanged>();
 
-        // Kill each enemy properly (triggers death animation)
-        foreach (EnemyFollow enemy in allEnemies)
+        Debug.Log($"Found {meleeEnemies.Length} melee and {rangedEnemies.Length} ranged enemies");
+
+        foreach (EnemyFollow enemy in meleeEnemies)
         {
             if (enemy != null && enemy.IsAlive())
             {
-                Debug.Log($"Killing enemy: {enemy.gameObject.name}");
-                enemy.TakeDamage(9999); // Calls Die() method which plays animation
+                enemy.TakeDamage(9999);
             }
         }
 
-        // Clear our tracking lists
+        foreach (EnemyRanged enemy in rangedEnemies)
+        {
+            if (enemy != null && enemy.IsAlive())
+            {
+                enemy.TakeDamage(9999);
+            }
+        }
+
         spawnedEnemies.Clear();
         aliveEnemies = 0;
 
-        Debug.Log($"After kill - Alive: {aliveEnemies}");
-
-        // Force complete the wave immediately
         if (waveActive)
         {
-            Debug.Log("Force completing wave NOW");
-            CancelInvoke(); // Cancel any pending wave starts
+            CancelInvoke();
             WaveComplete();
         }
     }

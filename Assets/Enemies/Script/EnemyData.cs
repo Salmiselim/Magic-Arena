@@ -13,6 +13,14 @@ public class EnemyData : ScriptableObject
     public Color portalColor = Color.green;         // Portal spawn color
     public Material skinMaterial;                   // Optional: different skin for this enemy
 
+    [Header("Audio")]
+    public AudioClip spawnSound;                    // Sound when spawning
+    public AudioClip[] walkSounds;                  // Footstep sounds (random)
+    public AudioClip[] hitSounds;                   // Pain sounds when hit (random)
+    public AudioClip[] attackSounds;                // Attack grunt sounds (random)
+    public AudioClip deathSound;                    // Death scream
+    public float walkSoundInterval = 0.5f;          // Time between footsteps
+
     [Header("Stats")]
     public float moveSpeed = 2f;
     public float attackRange = 1.5f;

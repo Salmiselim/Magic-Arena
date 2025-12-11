@@ -61,9 +61,13 @@
     <Compile Include="Assets\Spells\Script\SpellDebugger.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\XRPokeFollowAffordanceFill.cs" />
     <Compile Include="Assets\Enemies\Script\EnemyFollow.cs" />
+    <Compile Include="Assets\Spells\Script\CollisionTester.cs" />
     <Compile Include="Assets\Spells\Script\WandDebugger.cs" />
+    <Compile Include="Assets\Spells\Script\ElementalStatusEffect.cs" />
+    <Compile Include="Assets\Enemies\Script\EnemyRanged.cs" />
     <Compile Include="Assets\Default Assets\FPSShow.cs" />
     <Compile Include="Assets\Spells\Script\UItest.cs" />
+    <Compile Include="Assets\Spells\Script\ShieldController.cs" />
     <Compile Include="Assets\Spells\Script\WandController.cs" />
     <Compile Include="Assets\Spells\Script\WandUISelector.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\BezierCurve.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="Assets\VRTemplateAssets\Scripts\LaunchProjectile.cs" />
     <Compile Include="Assets\Spells\Script\SpellManager.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\HandSubsystemManager.cs" />
+    <Compile Include="Assets\Enemies\Script\EnemyProjectile.cs" />
     <Compile Include="Assets\Spells\Script\OffensiveSpells.cs" />
     <Compile Include="Assets\Spells\Script\PermanentGrab.cs" />
     <Compile Include="Assets\Enemies\Script\EnemySpawner.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="Assets\VRTemplateAssets\Scripts\DestroyObject.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\VideoTimeScrubControl.cs" />
     <Compile Include="Assets\Scripts\SpellButton.cs" />
+    <Compile Include="Assets\Artworks\new wall\DestructibleWall.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Spells\Script\SpellSelectButton.cs" />
     <Compile Include="Assets\Scripts\MainMenuManager.cs" />
@@ -89,10 +95,13 @@
     <Compile Include="Assets\Enemies\Script\EnemyData.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\CalloutGazeController.cs" />
     <Compile Include="Assets\Enemies\Script\LevelManager.cs" />
+    <Compile Include="Assets\Artworks\Runes\PuzzleManager.cs" />
+    <Compile Include="Assets\Artworks\new stuff\SpellProjectile.cs" />
     <Compile Include="Assets\Scripts\PetrificusProjectile.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\StepManager.cs" />
     <Compile Include="Assets\Enemies\Script\BaseballBat.cs" />
     <Compile Include="Assets\Scripts\PageClick.cs" />
+    <Compile Include="Assets\Artworks\new stuff\MagicDoor.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\AnchorVisuals.cs" />
     <Compile Include="Assets\Enemies\Script\WaveManager.cs" />
     <Compile Include="Assets\Spells\Script\CameraFollower.cs" />

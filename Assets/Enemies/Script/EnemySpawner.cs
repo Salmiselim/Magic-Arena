@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
     public float enemyRiseTime = 1.2f;      // Time for enemy to rise
 
     [Header("Auto Spawn Testing (optional)")]
-    public bool autoSpawnForTesting = true;
+    public bool autoSpawnForTesting = false; // CHANGED: Disable auto-spawn by default
     public float autoSpawnInterval = 5f;
     private float nextAutoSpawnTime;
 
@@ -42,16 +42,26 @@ public class EnemySpawner : MonoBehaviour
 
     /// <summary>
     /// Spawn enemy using EnemyData (used by WaveManager)
+    /// FIXED: Now returns the actual spawned enemy, not just any enemy with tag
     /// </summary>
     public IEnumerator SpawnSequenceWithData(Vector3 position, EnemyData data, System.Action<GameObject, EnemyData> onComplete)
     {
-        yield return StartCoroutine(SpawnSequenceInternal(position, data.difficulty, data.prefab, data.portalColor));
+        GameObject spawnedEnemy = null;
 
-        // Find the spawned enemy and callback
-        GameObject spawnedEnemy = GameObject.FindGameObjectWithTag("Enemy"); // You'll need to tag enemies
+        // Call internal spawn and capture the spawned enemy
+        yield return StartCoroutine(SpawnSequenceInternal(position, data.difficulty, data.prefab, data.portalColor, (enemy) => {
+            spawnedEnemy = enemy;
+        }));
+
+        // Callback with the ACTUAL spawned enemy
         if (onComplete != null && spawnedEnemy != null)
         {
+            Debug.Log($"✅ EnemySpawner callback: Spawned {spawnedEnemy.name}");
             onComplete(spawnedEnemy, data);
+        }
+        else
+        {
+            Debug.LogError("❌ EnemySpawner: Failed to spawn enemy!");
         }
     }
 
@@ -60,13 +70,14 @@ public class EnemySpawner : MonoBehaviour
     /// </summary>
     private IEnumerator SpawnSequence(Vector3 spawnPos, Difficulty difficulty)
     {
-        yield return StartCoroutine(SpawnSequenceInternal(spawnPos, difficulty, enemyPrefab, GetDifficultyColor(difficulty)));
+        yield return StartCoroutine(SpawnSequenceInternal(spawnPos, difficulty, enemyPrefab, GetDifficultyColor(difficulty), null));
     }
 
     /// <summary>
     /// Internal spawn sequence that accepts custom prefab and color
+    /// FIXED: Now has callback parameter to return the spawned enemy
     /// </summary>
-    private IEnumerator SpawnSequenceInternal(Vector3 spawnPos, Difficulty difficulty, GameObject prefabToSpawn, Color portalColor)
+    private IEnumerator SpawnSequenceInternal(Vector3 spawnPos, Difficulty difficulty, GameObject prefabToSpawn, Color portalColor, System.Action<GameObject> onEnemySpawned)
     {
         // Ensure spawn position is on ground
         spawnPos.y = 0.01f; // Slightly above ground to avoid z-fighting
@@ -119,6 +130,14 @@ public class EnemySpawner : MonoBehaviour
 
         // Tag enemy so WaveManager can find it
         enemy.tag = "Enemy";
+
+        Debug.Log($"🎯 EnemySpawner: Created enemy {enemy.name} at {spawnPos}");
+
+        // IMPORTANT: Call the callback immediately after spawning
+        if (onEnemySpawned != null)
+        {
+            onEnemySpawned(enemy);
+        }
 
         // Get all renderers and make enemy invisible
         Renderer[] renderers = enemy.GetComponentsInChildren<Renderer>();
@@ -196,7 +215,7 @@ public class EnemySpawner : MonoBehaviour
             renderers[i].material = originalMaterials[i];
         }
 
-        // Activate enemy AI
+        // Activate enemy AI (for old EnemyFollow script - backward compatible)
         EnemyFollow enemyScript = enemy.GetComponent<EnemyFollow>();
         if (enemyScript != null)
         {

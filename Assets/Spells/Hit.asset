@@ -16,6 +16,6 @@ MonoBehaviour:
   manaCost: 15
   cooldown: 1
   castTime: 0.1
-  damage: 10
-  range: 10
+  damage: 20
+  range: 15
   projectilePrefab: {fileID: 8116663575987147328, guid: 2c2aeed80dda70a4ba1d1abb464a7c56, type: 3}
