@@ -504,11 +504,37 @@ IEnumerator ShowSpellNameBriefly(string spellName)
     }
 }
 
-    public void CastSpellByVoice()
+    // ADD THIS METHOD to WandControllerV3.cs:
+    public void VoiceCastSpell(Spell spell)
     {
-        if (CanCast() && currentSpell != null)
+        if (!CanCast())
         {
-            CastSpell();
+            Debug.Log("❌ Wand cannot cast right now");
+            return;
         }
+
+        if (spell == null)
+        {
+            Debug.LogError("❌ Trying to cast null spell");
+            return;
+        }
+
+        // Save current spell
+        Spell originalSpell = currentSpell;
+
+        // Set to voice spell
+        SetCurrentSpell(spell);
+
+        // Cast it
+        CastSpell();
+
+        // Restore original spell after a tiny delay
+        StartCoroutine(RestoreOriginalSpell(originalSpell, 0.1f));
+    }
+
+    private IEnumerator RestoreOriginalSpell(Spell originalSpell, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SetCurrentSpell(originalSpell);
     }
 }

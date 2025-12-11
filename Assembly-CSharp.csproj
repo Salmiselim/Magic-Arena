@@ -97,6 +97,7 @@
     <Compile Include="Assets\VRTemplateAssets\Scripts\VideoTimeScrubControl.cs" />
     <Compile Include="Assets\Artworks\new wall\DestructibleWall.cs" />
     <Compile Include="Assets\Spells\Script\SpellSelectButton.cs" />
+    <Compile Include="Assets\Spells\Script\MicTester.cs" />
     <Compile Include="Assets\Spells\Script\ElementalSystem.cs" />
     <Compile Include="Assets\Player\Scripts\PlayerStats.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\Callout.cs" />

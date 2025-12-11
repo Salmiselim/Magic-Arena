@@ -3,7 +3,11 @@
   "WorkspaceRootPath": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\assets\\spells\\script\\spellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|c:\\users\\gamix\\documents\\github\\magic-arena\\assets\\spells\\script\\autovoicespellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\spells\\script\\autovoicespellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|c:\\users\\gamix\\documents\\github\\magic-arena\\assets\\spells\\script\\spellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B2571626-C2FD-9B71-5DD2-B13A4F367819}|Assembly-CSharp.csproj|solutionrelative:assets\\spells\\script\\spellmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -59,6 +63,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AutoVoiceSpellmanager.cs",
+              "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\AutoVoiceSpellmanager.cs",
+              "RelativeDocumentMoniker": "Assets\\Spells\\Script\\AutoVoiceSpellmanager.cs",
+              "ToolTip": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\AutoVoiceSpellmanager.cs",
+              "RelativeToolTip": "Assets\\Spells\\Script\\AutoVoiceSpellmanager.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAMEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T18:10:09.176Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "SpellManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellManager.cs",
               "RelativeDocumentMoniker": "Assets\\Spells\\Script\\SpellManager.cs",
@@ -71,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "WandController.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\WandController.cs",
               "RelativeDocumentMoniker": "Assets\\Spells\\Script\\WandController.cs",
@@ -79,12 +96,11 @@
               "RelativeToolTip": "Assets\\Spells\\Script\\WandController.cs",
               "ViewState": "AgIAANQBAAAAAAAAAAAAAAACAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-11T17:35:34.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-11T17:35:34.338Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PlayerStats.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Player\\Scripts\\PlayerStats.cs",
               "RelativeDocumentMoniker": "Assets\\Player\\Scripts\\PlayerStats.cs",
@@ -96,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SpellHUD.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Spells\\Script\\SpellHUD.cs",
               "RelativeDocumentMoniker": "Assets\\Spells\\Script\\SpellHUD.cs",
@@ -108,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "EnemySpawner.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemySpawner.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemySpawner.cs",
@@ -120,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "AudioManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\AudioManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\AudioManager.cs",
@@ -132,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "WaveManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\WaveManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\WaveManager.cs",
@@ -144,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "EnemyFollow.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemyFollow.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemyFollow.cs",
@@ -156,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "EnemyData.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\EnemyData.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\EnemyData.cs",
@@ -168,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "BaseballBat.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\BaseballBat.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\BaseballBat.cs",
@@ -180,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "LevelManager.cs",
               "DocumentMoniker": "C:\\Users\\gamix\\Documents\\GitHub\\Magic-Arena\\Assets\\Enemies\\Script\\LevelManager.cs",
               "RelativeDocumentMoniker": "Assets\\Enemies\\Script\\LevelManager.cs",

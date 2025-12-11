@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4dbe3b8fba28694788fed67e71df8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoiceSpellcaster
-  commandCooldown: 0.5
+  voiceCastCooldown: 0.5
 --- !u!1 &131753797 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5081325859812106409, guid: 28dd97549c3e1714dbca4890353f7c26, type: 3}
@@ -13259,7 +13259,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5577341058858673926, guid: aea9491c571989447bd45690d9463eb9, type: 3}
   m_PrefabInstance: {fileID: 913417408028119855}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913417408028119856}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4429787f90ab05498d20ba4cff72c5a, type: 3}
@@ -14259,34 +14259,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4215834425101022254, guid: aea9491c571989447bd45690d9463eb9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 913417408028119857}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aea9491c571989447bd45690d9463eb9, type: 3}
---- !u!1 &913417408028119856 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4215834425101022254, guid: aea9491c571989447bd45690d9463eb9, type: 3}
-  m_PrefabInstance: {fileID: 913417408028119855}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &913417408028119857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913417408028119856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 764e95603b9070f469cedb18250ce7d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VoiceWandIntegration
-  voiceToggleAction: {fileID: 0}
-  voiceCastingEnabled: 1
-  voiceCastDelay: 0.3
-  voiceCastEffectPrefab: {fileID: 0}
-  wand: {fileID: 0}
-  isVoiceCasting: 0
 --- !u!114 &942810691258356160
 MonoBehaviour:
   m_ObjectHideFlags: 0
