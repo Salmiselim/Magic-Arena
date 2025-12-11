@@ -17,4 +17,16 @@ MonoBehaviour:
   cooldown: 20
   castTime: 0.1
   type: 1
-  effectPrefab: {fileID: 7640970267051462298, guid: ae9bdcaa1a8496449b1068fd7844906c, type: 3}
+  damage: 30
+  range: 15
+  areaRadius: 3
+  effectPrefab: {fileID: 1920325297268671343, guid: 889dd67908ff48640a817f0b0074814e, type: 3}
+  impactEffectPrefab: {fileID: 0}
+  auraEffectPrefab: {fileID: 0}
+  statusDuration: 3
+  dotDamage: 5
+  slowAmount: 0.5
+  isAreaEffect: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0

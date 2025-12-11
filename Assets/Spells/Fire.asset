@@ -21,8 +21,8 @@ MonoBehaviour:
   range: 15
   areaRadius: 3
   effectPrefab: {fileID: 8793510976239746625, guid: 8fa5143051527e949b0ae174c8430414, type: 3}
-  impactEffectPrefab: {fileID: 0}
-  auraEffectPrefab: {fileID: 0}
+  impactEffectPrefab: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347, type: 3}
+  auraEffectPrefab: {fileID: 6414953239637031926, guid: 8c49b35febea4514b87b37f643064ed4, type: 3}
   statusDuration: 3
   dotDamage: 5
   slowAmount: 0.5
