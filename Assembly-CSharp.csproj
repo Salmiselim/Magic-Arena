@@ -67,6 +67,7 @@
     <Compile Include="Assets\Enemies\Script\EnemyHealthBar.cs" />
     <Compile Include="Assets\Spells\Script\SpellHUD.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\VideoPlayerRenderTexture.cs" />
+    <Compile Include="Assets\Spells\Script\HUDDebugHelper.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\Rotator.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\XRKnob.cs" />
     <Compile Include="Assets\Spells\Script\Projectile.cs" />
@@ -103,8 +104,10 @@
     <Compile Include="Assets\VRTemplateAssets\Scripts\Callout.cs" />
     <Compile Include="Assets\Enemies\Script\EnemyData.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\CalloutGazeController.cs" />
+    <Compile Include="Assets\Spells\Script\VoiceSpellCaster.cs" />
     <Compile Include="Assets\Enemies\Script\LevelManager.cs" />
     <Compile Include="Assets\Artworks\Runes\PuzzleManager.cs" />
+    <Compile Include="Assets\Player\Scripts\PlayerDamageReceiver.cs" />
     <Compile Include="Assets\Spells\Script\AutoVoiceSpellmanager.cs" />
     <Compile Include="Assets\Artworks\new stuff\SpellProjectile.cs" />
     <Compile Include="Assets\VRTemplateAssets\Scripts\StepManager.cs" />

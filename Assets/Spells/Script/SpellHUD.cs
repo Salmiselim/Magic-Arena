@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -51,6 +51,17 @@ public class SpellHUD : MonoBehaviour
     public Color lowHealthColor = new Color(1f, 0.1f, 0.1f);
     public Color lowManaColor = new Color(1f, 0.8f, 0f);
 
+    [Header("Voice Casting Feedback")]
+    public GameObject voiceCastPanel; // Optional panel that shows voice casting
+    public TextMeshProUGUI voiceCastText; // Shows "🎤 FIREBALL!"
+    public float voiceFeedbackDuration = 1.5f;
+
+    [Header("VR Follow Settings")]
+    public Transform vrCamera; // Assign your XR Camera/Main Camera
+    public float followSpeed = 5f;
+    public Vector3 hudOffset = new Vector3(0f, -0.3f, 1.5f); // Position relative to camera
+    public bool lockYRotation = true; // Keep HUD upright
+
     private float cooldownTimer = 0f;
     private bool isOnCooldown = false;
     private bool isLowHealth = false;
@@ -58,6 +69,45 @@ public class SpellHUD : MonoBehaviour
 
     void Start()
     {
+        // Find VR camera if not assigned
+        if (vrCamera == null)
+        {
+            vrCamera = Camera.main?.transform;
+            if (vrCamera == null)
+            {
+                Debug.LogError("❌ No VR Camera found! Assign it manually in SpellHUD.");
+            }
+            else
+            {
+                Debug.Log($"✅ SpellHUD: Auto-found camera: {vrCamera.name}");
+            }
+        }
+        else
+        {
+            Debug.Log($"✅ SpellHUD: Camera assigned: {vrCamera.name}");
+        }
+
+        // Check Canvas component
+        Canvas canvas = GetComponent<Canvas>();
+        if (canvas != null)
+        {
+            Debug.Log($"✅ Canvas Render Mode: {canvas.renderMode}");
+            Debug.Log($"✅ Canvas Enabled: {canvas.enabled}");
+            Debug.Log($"✅ Canvas Position: {transform.position}");
+            Debug.Log($"✅ Canvas Scale: {transform.localScale}");
+
+            // For World Space canvas, set the camera
+            if (canvas.renderMode == RenderMode.WorldSpace && vrCamera != null)
+            {
+                canvas.worldCamera = vrCamera.GetComponent<Camera>();
+                Debug.Log("✅ Set world camera for canvas");
+            }
+        }
+        else
+        {
+            Debug.LogError("❌ No Canvas component found!");
+        }
+
         // Subscribe to spell change events
         if (spellManager != null)
         {
@@ -78,6 +128,21 @@ public class SpellHUD : MonoBehaviour
             cooldownOverlay.color = cooldownColor;
             cooldownOverlay.fillAmount = 0f;
         }
+
+        // Hide voice feedback panel initially
+        if (voiceCastPanel != null)
+            voiceCastPanel.SetActive(false);
+
+        // Initial position setup
+        if (vrCamera != null)
+        {
+            Vector3 initialPos = vrCamera.position + vrCamera.forward * hudOffset.z
+                                                    + vrCamera.up * hudOffset.y
+                                                    + vrCamera.right * hudOffset.x;
+            transform.position = initialPos;
+            transform.LookAt(transform.position + vrCamera.forward);
+            Debug.Log($"✅ Initial HUD position set to: {initialPos}");
+        }
     }
 
     void Update()
@@ -86,6 +151,7 @@ public class SpellHUD : MonoBehaviour
         UpdateManaBar();
         UpdateCooldown();
         CheckCanCastWarning();
+        FollowVRCamera(); // Keep HUD in view
     }
 
     void SetupControlHints()
@@ -364,6 +430,60 @@ public class SpellHUD : MonoBehaviour
         bar.color = flashColor;
         yield return new WaitForSeconds(0.1f);
         bar.color = originalColor;
+    }
+
+    // Voice casting feedback
+    public void ShowVoiceCastFeedback(string spellName)
+    {
+        if (voiceCastText != null)
+        {
+            voiceCastText.text = $"🎤 {spellName.ToUpper()}!";
+        }
+
+        if (voiceCastPanel != null)
+        {
+            StopCoroutine(nameof(VoiceFeedbackRoutine));
+            StartCoroutine(VoiceFeedbackRoutine());
+        }
+    }
+
+    System.Collections.IEnumerator VoiceFeedbackRoutine()
+    {
+        if (voiceCastPanel != null)
+        {
+            voiceCastPanel.SetActive(true);
+            yield return new WaitForSeconds(voiceFeedbackDuration);
+            voiceCastPanel.SetActive(false);
+        }
+    }
+
+    // VR Camera following - keeps HUD always visible
+    void FollowVRCamera()
+    {
+        if (vrCamera == null) return;
+
+        // Calculate target position relative to camera
+        Vector3 targetPosition = vrCamera.position + vrCamera.forward * hudOffset.z
+                                                    + vrCamera.up * hudOffset.y
+                                                    + vrCamera.right * hudOffset.x;
+
+        // Smooth follow
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * followSpeed);
+
+        // Calculate rotation
+        Vector3 lookDirection = transform.position - vrCamera.position;
+
+        if (lockYRotation)
+        {
+            // Keep HUD upright (don't tilt with head)
+            lookDirection.y = 0;
+        }
+
+        if (lookDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * followSpeed);
+        }
     }
 
     void OnDestroy()
